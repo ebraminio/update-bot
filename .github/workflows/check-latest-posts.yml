@@ -1,0 +1,31 @@
+name: Check latest posts
+
+on:
+  workflow_dispatch: # manual trig button
+  schedule:
+    - cron: '52 9,21 * * *' # twice a day
+
+jobs:
+  build:
+    name: Check latest update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - run: pip install -r requirements.txt
+
+      - run: python check-new-yorker.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
+      - name: Add and commit the report
+        uses: EndBug/add-and-commit@50e9817f158f0e2a915d93970456b8998db76a37
+        with:
+          default_author: github_actor
+          message: 'Update latest posts'
+          add: new-yorker-latest-post
