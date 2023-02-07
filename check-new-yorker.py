@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
+
 import asyncio, re, os
+
 from urllib.request import Request, urlopen
 from urllib.parse import quote
 
-import telegram
 from bs4 import BeautifulSoup
+
+import telegram
 
 html_page = urlopen(Request('https://www.newyorker.com/cartoons/daily-cartoon')).read()
 
@@ -14,7 +17,7 @@ img_url = re.sub(r'/[\d:]+/[^/]+', '', post.find('img')['src'])
 caption = '\n\n'.join(x.text for x in post.select('h3, h4, h5'))
 url = 'https://www.newyorker.com/' + quote(post.find('a')['href'].lstrip('/'))
 
-latest_post = open('new-yorker-latest-post', 'r').read()
+with open('new-yorker-latest-post', 'r') as f: latest_post = f.read()
 if latest_post != caption:
     with open('new-yorker-latest-post', 'w') as f: f.write(caption)
     author = post.find('p').text
