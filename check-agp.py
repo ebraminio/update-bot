@@ -19,7 +19,7 @@ latest_agp = [x
 with open('agp-version', 'r') as f: latest_notified_agp = f.read()
 if latest_notified_agp != latest_agp:
     with open('agp-version', 'w') as f: f.write(latest_agp)
-    text = f"A new version of stable Android Studio, {latest_agp}, has been released thus an update to" \
-            " `com.android.application` (AGP) as well as Android Studio's installation might be needed."
+    text = f"A new version of stable Android Studio, {latest_agp}, has been released. An update to" \
+            " <code>com.android.application</code> (AGP) as well as Android Studio's installation might be needed."
     bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
     asyncio.run(bot.send_message(chat_id='@Persian_Calendar', text=text, parse_mode='HTML'))
