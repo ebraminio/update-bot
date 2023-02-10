@@ -34,6 +34,6 @@ jobs:
       - name: Add and commit the report
         uses: EndBug/add-and-commit@50e9817f158f0e2a915d93970456b8998db76a37
         with:
-          default_author: github_actor
+          default_author: github_actions
           message: 'Update latest posts'
           add: new-yorker-latest-post agp-version compose-version
