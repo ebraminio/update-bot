@@ -19,15 +19,19 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python check-new-yorker.py
+      - run: ./check-new-yorker.py || true
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
-      - run: python check-agp.py
+      - run: ./check-agp.py || true
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
-      - run: python check-compose-compiler.py
+      - run: ./check-compose-compiler.py || true
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
+      - run: ./check-esht.py || true
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
@@ -36,4 +40,4 @@ jobs:
         with:
           default_author: github_actions
           message: 'Update latest posts'
-          add: new-yorker-latest-post agp-version compose-version
+          add: new-yorker-latest-post agp-version compose-version new-esht
