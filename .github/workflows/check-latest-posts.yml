@@ -35,6 +35,10 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
+      - run: ./check-flutter.py || true
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
       - name: Add and commit the report
         uses: EndBug/add-and-commit@50e9817f158f0e2a915d93970456b8998db76a37
         with:
