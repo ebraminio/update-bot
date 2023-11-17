@@ -15,6 +15,6 @@ latest_version = latest_version_linux_releases[0]['version']
 with open('new-flutter-release', 'r') as f: latest_notified_version = f.read()
 if latest_notified_version != latest_version:
     with open('new-flutter-release', 'w') as f: f.write(latest_version)
-    text = f"🚨‼️ BREAKING\n\nA new stable version of Flutter, {latest_version}, is published which has Dart {latest_version_linux_releases['dart_sdk_version']}.\n\nhttps://docs.flutter.dev/get-started/install"
+    text = f"🚨‼️ BREAKING\n\nA new stable version of Flutter, {latest_version}, is published which has Dart {latest_version_linux_releases[0]['dart_sdk_version']}.\n\nhttps://docs.flutter.dev/get-started/install"
     bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
     asyncio.run(bot.send_message(chat_id='@FlutterNewsFeed', text=text, parse_mode='HTML'))
