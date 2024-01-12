@@ -21,6 +21,6 @@ async def main():
     for entry in reversed(d.entries):
         if entry.id in posted_ids: continue
         text = f"{entry.title}\n\n{entry.link.split('?')[0]}"
-        await bot.send_message(chat_id='@FlutterNewsFeed', text=text, parse_mode='HTML', disable_web_page_preview=True)
+        await bot.send_message(chat_id='@FlutterNewsFeed', text=text, parse_mode='HTML')
 
 asyncio.run(main())
