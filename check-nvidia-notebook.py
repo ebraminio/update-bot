@@ -15,7 +15,7 @@ page_content = urlopen(Request(page_url)).read()
 soup = BeautifulSoup(page_content, 'html.parser')
 
 link = 'https://us.download.nvidia.com' + parse_qs(urlparse(soup.select_one('#lnkDwnldBtn')['href']).query)['url'][0]
-version = soup.select_one('#tdVersion').text.strip()
+version = soup.select_one('#tdVersion').text.split('WHQL')[0].strip()
 
 with open('new-nvidia-notebook', 'r') as f: latest_post = f.read()
 if version != latest_post:
