@@ -5,17 +5,19 @@ import asyncio, os
 from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup
-
+import cssutils
 import telegram
 
-html_page = urlopen(Request('http://esht.ir')).read()
+html_page = urlopen(Request('https://eitaa.com/barforooshan')).read()
 
 soup = BeautifulSoup(html_page, 'html.parser')
-img = soup.select_one('input[type="image"]')['src']
+latest_post_element = soup.select('.etme_widget_message_photo_wrap')[-1]
+latest_post = latest_post_element['href']
+img = 'https://eitaa.com/' + cssutils.parseStyle(latest_post_element['style'])['background-image'].replace('url(', '').replace(')', '')
 
-with open('new-esht', 'r') as f: latest_post = f.read()
-if latest_post != img:
-    with open('new-esht', 'w') as f: f.write(img)
+with open('new-esht', 'r') as f: latest_posted = f.read()
+if latest_posted != latest_post:
+    with open('new-esht', 'w') as f: f.write(latest_post)
     bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
-    img_bytes = urlopen(Request('http://esht.ir/' + img)).read()
+    img_bytes = urlopen(Request(img)).read()
     asyncio.run(bot.send_photo(chat_id='@fruitprices', photo=img_bytes))
