@@ -48,4 +48,4 @@ jobs:
         with:
           default_author: github_actions
           message: 'Update latest posts'
-          add: new-yorker-latest-post agp-version compose-version new-esht new-flutter-blog-posts new-nvidia-notebook new-flutter-release
+          add: new-yorker-latest-post agp-version new-esht new-flutter-blog-posts new-nvidia-notebook new-flutter-release
