@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 import telegram
 
 page_url = urlopen(Request('https://www.nvidia.com/download/processDriver.aspx?psid=129&pfid=1004&rpf=1&osid=135&lid=1&lang=en-us&ctk=0&dtid=1&dtcid=1')).read().decode('utf-8')
-page_content = urlopen(Request(page_url)).read()
+#page_content = urlopen(Request(page_url)).read()
 
-soup = BeautifulSoup(page_content, 'html.parser')
+#soup = BeautifulSoup(page_content, 'html.parser')
 
 #version = soup.select_one('#tdVersion').text.split('WHQL')[0].strip()
 
