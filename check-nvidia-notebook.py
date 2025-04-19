@@ -2,30 +2,33 @@
 
 import asyncio, os
 from urllib.request import Request, urlopen
-from urllib.parse import urlparse, parse_qs
-
-from bs4 import BeautifulSoup
+import json
 
 import telegram
 
-page_url = urlopen(Request('https://www.nvidia.com/download/processDriver.aspx?psid=129&pfid=1004&rpf=1&osid=135&lid=1&lang=en-us&ctk=0&dtid=1&dtcid=1')).read().decode('utf-8')
-#page_content = urlopen(Request(page_url)).read()
-
-#soup = BeautifulSoup(page_content, 'html.parser')
-
-#version = soup.select_one('#tdVersion').text.split('WHQL')[0].strip()
+info = json.loads(
+    urlopen(
+        Request(
+            'https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=133&pfid=1073&osID=57&languageCode=1033&beta=null&isWHQL=0&dltype=-1&dch=1&upCRD=null&qnf=0&sort1=1&numberOfResults=10'
+        )
+    ).read().decode('utf-8')
+)['IDS'][0]['downloadInfo']
+version = info['Version']
 
 with open('new-nvidia-notebook', 'r') as f: latest_post = f.read()
-if page_url != latest_post:
-    with open('new-nvidia-notebook', 'w') as f: f.write(page_url)
+if version != latest_post:
+    with open('new-nvidia-notebook', 'w') as f: f.write(version)
     bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
-    # comment = soup.select_one('#tab1_content').text.split(' updates for your notebook.')[1].split('Learn more in our Game Ready Driver article here.')[0].strip()
-    # size = [x for x in soup.select('.contentsummaryright') if ' MB' in x.text][0].text.strip()
-    text = f'''New driver is out!
 
-Download Driver: {page_url}'''
+    link = info['DownloadURL']
+    page_url = info['DetailsURL']
+    size = info['DownloadURLFileSize']
+    text = f'''Driver {version} is out!
 
+Driver Details: {page_url}
+Download Driver ({size}): {link}'''
 # ```
 # {comment}
-# ```'''
+# ```
+# '''
     asyncio.run(bot.send_message(chat_id='@NVIDIANotebookDriver', text=text, parse_mode='markdown', disable_web_page_preview=True))
