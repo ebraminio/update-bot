@@ -23,14 +23,13 @@ async def main():
         row_id = tds[0].text
         if last_id >= row_id: continue
         url = 'https://www.unicode.org/L2/' + link.attrs['href']
-        text = f'''<a href="{url}">{tds[0].text}</a>
+        text = f'''<code>Doc No.:</code> <a href="{url}">{tds[0].text}</a>
 
-{tds[1].text}
+<code>Subject:</code> {tds[1].text}
 
-Source: {tds[2].text}
-{tds[3].text}
+<code>Source:</code> {tds[2].text}
 
-@unicodeproposals'''
+🗓 {tds[3].text}'''
         await bot.send_message(chat_id='@unicodeproposals', parse_mode='HTML', text=text)
         with open('new-unicode-proposals', 'w') as f: f.write(row_id)
         asyncio.sleep(random.uniform(1, 10))
