@@ -33,6 +33,6 @@ Source: {tds[2].text}
 @unicodeproposals'''
         await bot.send_message(chat_id='@unicodeproposals', parse_mode='HTML', text=text)
         with open('new-unicode-proposals', 'w') as f: f.write(row_id)
-        time.sleep(random.uniform(1, 10))
+        asyncio.sleep(random.uniform(1, 10))
 
 asyncio.run(main())
