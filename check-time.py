@@ -42,12 +42,12 @@ async def main():
         await bot.edit_message_text(chat_id='@ebraminio', parse_mode='markdown', message_id=42, text=text)
 
         await bot.set_chat_title(chat_id='@ebraminio', title=persian_day + '، ' + format_persian_date(*persian))
-        title_change_id = latest_post['id']
+        title_change_id = latest_post['id'] + 1
         try:
             await bot.delete_message(chat_id='@ebraminio', message_id=title_change_id)
         except telegram.error.BadRequest:
             pass
 
-        with open('new-time', 'w') as f: f.write(json.dumps({'text': text, 'id': title_change_id + 1}))
+        with open('new-time', 'w') as f: f.write(json.dumps({'text': text, 'id': title_change_id}))
 
 asyncio.run(main())
