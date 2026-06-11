@@ -38,9 +38,16 @@ async def main():
     if text != latest_post['text']:
         bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
         persian_day = persian_weekdays[time.weekday()]
-        await bot.delete_message(chat_id='@ebraminio', message_id=latest_post['id'])
+        try:
+            await bot.delete_message(chat_id='@ebraminio', message_id=latest_post['id'])
+        except telegram.error.BadRequest:
+            pass
         await bot.set_chat_title(chat_id='@ebraminio', title=persian_day + '، ' + format_persian_date(*persian))
         message = await bot.send_message(chat_id='@ebraminio', parse_mode='markdown', text=text, disable_notification=True)
+        try:
+            await bot.delete_message(chat_id='@ebraminio', message_id=message.message_id)
+        except telegram.error.BadRequest:
+            pass
 
         with open('new-time', 'w') as f: f.write(json.dumps({'text': text, 'id': message.message_id}))
 
