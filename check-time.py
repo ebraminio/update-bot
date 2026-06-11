@@ -15,12 +15,12 @@ async def main():
     time = datetime.now(tehran_tz)
 
     persian = persian_from_fixed(fixed_from_gregorian((time.year, time.month, time.day)))
-    time = '/'.join(map(str, persian))
+    text = '`' + '/'.join(map(str, persian)) + '`\n\n`' + time.date().isoformat() + '`'
 
-    if time != latest_post:
-        with open('new-time', 'w') as f: f.write(time)
+    if text != latest_post:
+        with open('new-time', 'w') as f: f.write(text)
         
         bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
-        await bot.send_message(chat_id='@ebraminio', parse_mode='markdown', text=f'`{time}`')
+        await bot.send_message(chat_id='@ebraminio', parse_mode='markdown', text=text)
 
 asyncio.run(main())
