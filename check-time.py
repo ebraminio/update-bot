@@ -31,7 +31,7 @@ async def main():
     tehran_tz = zoneinfo.ZoneInfo("Asia/Tehran")
     time = datetime.now(tehran_tz)
 
-    persian = persian_from_fixed(fixed_from_gregorian((time.year, time.month, time.day)))
+    persian = persian_from_fixed(fixed_from_gregorian((time.year, time.month, time.day - 1)))
     text = '`' + '/'.join(map(str, persian)) + '`\n\n`' + time.date().isoformat() + '`'
     # print(text)
 
@@ -45,7 +45,7 @@ async def main():
         await bot.set_chat_title(chat_id='@ebraminio', title=persian_day + '، ' + format_persian_date(*persian))
         message = await bot.send_message(chat_id='@ebraminio', parse_mode='markdown', text=text, disable_notification=True)
         try:
-            await bot.delete_message(chat_id='@ebraminio', message_id=message.message_id)
+            await bot.delete_message(chat_id='@ebraminio', message_id=message.message_id - 1)
         except telegram.error.BadRequest:
             pass
 
