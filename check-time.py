@@ -31,7 +31,7 @@ async def main():
     tehran_tz = zoneinfo.ZoneInfo("Asia/Tehran")
     time = datetime.now(tehran_tz)
 
-    persian = persian_from_fixed(fixed_from_gregorian((time.year, time.month, time.day)))
+    persian = persian_from_fixed(fixed_from_gregorian((time.year, time.month, time.day - 1)))
     text = '`' + '/'.join(map(str, persian)) + '`\n\n`' + time.date().isoformat() + '`'
     # print(text)
 
@@ -39,7 +39,7 @@ async def main():
         bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
         persian_day = persian_weekdays[time.weekday()]
 
-        await bot.edit_message_text(chat_id='@ebraminio', message_id=42, text=text)
+        await bot.edit_message_text(chat_id='@ebraminio', parse_mode='markdown', message_id=42, text=text)
 
         await bot.set_chat_title(chat_id='@ebraminio', title=persian_day + '، ' + format_persian_date(*persian))
         title_change_id = latest_post['id']
