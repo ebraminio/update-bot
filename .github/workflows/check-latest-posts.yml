@@ -3,7 +3,7 @@ name: Check latest posts
 on:
   workflow_dispatch: # manual trig button
   schedule:
-    - cron: '52 9,21 * * *' # twice a day
+    - cron: '30 4,16 * * *' # twice a day
 
 jobs:
   build:
