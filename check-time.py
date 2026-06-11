@@ -48,6 +48,6 @@ async def main():
         except telegram.error.BadRequest:
             pass
 
-        with open('new-time', 'w') as f: f.write(json.dumps({'title': title, 'id': title_change_id}))
+        with open('new-time', 'w') as f: f.write(json.dumps({'title': title, 'id': title_change_id}, ensure_ascii=False))
 
 asyncio.run(main())
