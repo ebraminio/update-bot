@@ -34,20 +34,20 @@ async def main():
     persian = persian_from_fixed(fixed_from_gregorian((time.year, time.month, time.day - 1)))
     text = '`' + '/'.join(map(str, persian)) + '`\n\n`' + time.date().isoformat() + '`'
     # print(text)
+    title = persian_weekdays[time.weekday()] + '، ' + format_persian_date(*persian)
 
-    if text != latest_post['text']:
+    if title != latest_post['title']:
         bot = telegram.Bot(os.environ['TELEGRAM_TOKEN'])
-        persian_day = persian_weekdays[time.weekday()]
 
         await bot.edit_message_text(chat_id='@ebraminio', parse_mode='markdown', message_id=42, text=text)
 
-        await bot.set_chat_title(chat_id='@ebraminio', title=persian_day + '، ' + format_persian_date(*persian))
+        await bot.set_chat_title(chat_id='@ebraminio', title=title)
         title_change_id = latest_post['id'] + 1
         try:
             await bot.delete_message(chat_id='@ebraminio', message_id=title_change_id)
         except telegram.error.BadRequest:
             pass
 
-        with open('new-time', 'w') as f: f.write(json.dumps({'text': text, 'id': title_change_id}))
+        with open('new-time', 'w') as f: f.write(json.dumps({'title': title, 'id': title_change_id}))
 
 asyncio.run(main())
