@@ -42,7 +42,7 @@ async def main():
         await bot.edit_message_text(chat_id='@ebraminio', parse_mode='markdown', message_id=42, text=text)
 
         await bot.set_chat_title(chat_id='@ebraminio', title=title)
-        title_change_id = latest_post['id'] + 1
+        title_change_id = latest_post['id'] + 1 # shame set_chat_title doesn't return the message id of the title change, so we have to guess it
         try:
             await bot.delete_message(chat_id='@ebraminio', message_id=title_change_id)
         except telegram.error.BadRequest:
