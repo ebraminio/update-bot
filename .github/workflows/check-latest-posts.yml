@@ -19,9 +19,9 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: ./check-time.py || true
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      #- run: ./check-time.py || true
+      #  env:
+      #    TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
       - run: ./check-new-yorker.py || true
         env:
